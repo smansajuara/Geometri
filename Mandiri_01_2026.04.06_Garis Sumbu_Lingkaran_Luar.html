@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bab 3 - Segitiga: Garis Sumbu dan Lingkaran Luar</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)']],
+                displayMath: [['\\[', '\\]']],
+                processEscapes: true
+            },
+            options: {
+                enableMenu: false
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e67e22;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --bg: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--primary);
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--white);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        header h1 { margin: 0; font-size: 2.2em; }
+        header p { margin: 10px 0 0; opacity: 0.9; }
+
+        .fullscreen-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .fullscreen-btn:hover { background: white; color: var(--primary); }
+
+        section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            color: var(--secondary);
+            border-left: 5px solid var(--accent);
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+
+        .materi-card {
+            background: #f8fbff;
+            border: 1px solid #d6eaf8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .formula-box {
+            background: #ecf0f1;
+            padding: 15px;
+            border-left: 5px solid var(--secondary);
+            margin: 15px 0;
+            font-size: 1.1em;
+        }
+
+        .table-container { overflow-x: auto; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th { background-color: var(--secondary); color: white; }
+
+        .soal-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .soal-card:hover { transform: translateY(-3px); }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        details {
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        summary {
+            background: #eee;
+            padding: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            outline: none;
+            list-style: none;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '👁️ '; }
+
+        .penyelesaian {
+            background: #fdfdfd;
+            border: 1px solid #eee;
+            padding: 20px;
+            border-top: none;
+        }
+
+        .latihan-box {
+            background: #fff4e6;
+            border: 2px dashed var(--accent);
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.5em; }
+            .container { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="mainContent">
+    <button class="fullscreen-btn" onclick="toggleFullScreen()">⛶ Fullscreen</button>
+    
+    <header>
+        <h1>Bab 3 - Segitiga</h1>
+        <p>Garis Sumbu dan Lingkaran Luar</p>
+    </header>
+
+    <section id="materi">
+        <h2>1. Konsep Dasar</h2>
+        <div class="materi-card">
+            <p><strong>Garis Sumbu</strong> adalah garis yang ditarik tegak lurus dari titik tengah suatu sisi segitiga. Titik potong ketiga garis sumbu disebut <strong>Circumcenter</strong>, yang berfungsi sebagai pusat dari <strong>Lingkaran Luar Segitiga</strong>.</p>
+        </div>
+
+        <h2>2. Rumus Luas & Jari-jari Lingkaran Luar \( (R) \)</h2>
+        <div class="materi-card">
+            <p>Hubungan antara sisi segitiga \( a, b, c \), sudut \( C \), dan jari-jari lingkaran luar \( R \):</p>
+            <div class="formula-box">
+                <strong>Luas Segitiga (Trigonometri):</strong><br>
+                \( L = \frac{1}{2} a b \sin C \)
+            </div>
+            <div class="formula-box">
+                <strong>Hubungan dengan Jari-jari Lingkaran Luar:</strong><br>
+                \( R = \frac{abc}{4L} \) atau \( L = \frac{abc}{4R} \)
+            </div>
+        </div>
+
+        <h2>3. Teorema Garis Bagi (Angle Bisector)</h2>
+        <div class="materi-card">
+            <p>Garis bagi membagi sudut menjadi dua bagian sama besar dan membagi sisi di depannya dengan perbandingan tetap:</p>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Jenis Garis Bagi</th>
+                            <th>Rumus Perbandingan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Garis Bagi Dalam</strong></td>
+                            <td>\( \frac{AB}{BD} = \frac{AC}{CD} \)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Garis Bagi Luar</strong></td>
+                            <td>\( \frac{AB}{BD'} = \frac{AC}{CD'} \)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="contoh-soal">
+        <h2 style="border-left-color: var(--secondary);">Contoh Soal Interaktif</h2>
+
+        <div class="soal-card">
+            <span class="badge" style="background: var(--secondary);">Lingkaran Luar</span>
+            <p><strong>Soal 1:</strong> Diketahui segitiga \(ABC\) dengan panjang sisi \(a = 13 \text{ cm}\), \(b = 14 \text{ cm}\), dan \(c = 15 \text{ cm}\). Hitunglah jari-jari lingkaran luarnya (\(R\))!</p>
+            <details>
+                <summary>Lihat Penyelesaian</summary>
+                <div class="penyelesaian">
+                    <ol>
+                        <li><strong>Semi-perimeter (s):</strong> \( s = \frac{1}{2}(13+14+15) = 21 \)</li>
+                        <li><strong>Luas (L) dengan Rumus Heron:</strong><br> 
+                            \( L = \sqrt{s(s-a)(s-b)(s-c)} \)<br>
+                            \( L = \sqrt{21(8)(7)(6)} = 84 \text{ cm}^2 \)
+                        </li>
+                        <li><strong>Jari-jari (R):</strong><br> 
+                            \( R = \frac{abc}{4L} = \frac{13 \cdot 14 \cdot 15}{4 \cdot 84} = 8.125 \text{ cm} \)
+                        </li>
+                    </ol>
+                </div>
+            </details>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge" style="background: #9b59b6;">Trigonometri</span>
+            <p><strong>Soal 2:</strong> Tentukan luas \(\triangle PQR\) jika diketahui panjang \(p = 10 \text{ cm}\), \(q = 12 \text{ cm}\), dan besar sudut \(R = 150^\circ\)!</p>
+            <details>
+                <summary>Lihat Penyelesaian</summary>
+                <div class="penyelesaian">
+                    <p>Gunakan rumus: \( L = \frac{1}{2} p q \sin R \)</p>
+                    \( L = \frac{1}{2} \cdot 10 \cdot 12 \cdot \sin 150^\circ \)<br> 
+                    \( L = 60 \cdot \frac{1}{2} \) <small>(karena \(\sin 150^\circ = \sin 30^\circ\))</small><br>
+                    <strong>Hasil: \( L = 30 \text{ cm}^2 \)</strong>
+                </div>
+            </details>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge" style="background: var(--accent);">Garis Bagi Dalam</span>
+            <p><strong>Soal 3:</strong> Pada \(\triangle ABC\), garis bagi dalam sudut \(A\) memotong \(BC\) di titik \(D\). Jika \(AB = 8\), \(AC = 12\), dan \(BC = 15\), hitunglah panjang \(BD\)!</p>
+            <details>
+                <summary>Lihat Penyelesaian</summary>
+                <div class="penyelesaian">
+                    <p>Misalkan \(BD = x\), maka \(CD = 15 - x\).</p>
+                    \( \frac{AB}{BD} = \frac{AC}{CD} \Rightarrow \frac{8}{x} = \frac{12}{15 - x} \)<br> 
+                    \( 120 - 8x = 12x \Rightarrow 120 = 20x \)<br>
+                    <strong>Hasil: \( x = 6 \text{ cm} \)</strong>
+                </div>
+            </details>
+        </div>
+
+        <div class="soal-card">
+            <span class="badge" style="background: var(--danger);">Garis Bagi Luar</span>
+            <p><strong>Soal 4:</strong> Diketahui \(\triangle ABC\) dengan \(AB = 10 \text{ cm}\) dan \(AC = 6 \text{ cm}\). Garis bagi luar sudut \(A\) memotong perpanjangan sisi \(BC\) di titik \(D'\). Jika panjang \(BC = 8 \text{ cm}\), tentukan panjang \(CD'\)!</p>
+            <details>
+                <summary>Lihat Penyelesaian</summary>
+                <div class="penyelesaian">
+                    <p>Misalkan \(CD' = x\), maka \(BD' = 8 + x\).</p>
+                    \( \frac{AB}{BD'} = \frac{AC}{CD'} \Rightarrow \frac{10}{8+x} = \frac{6}{x} \)<br>
+                    \( 10x = 48 + 6x \Rightarrow 4x = 48 \)<br>
+                    <strong>Hasil: \( x = 12 \text{ cm} \)</strong>
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <section id="latihan">
+        <h2 style="border-left-color: var(--success);">Latihan Mandiri (Tingkat Olimpiade, tahun menengah : 2011 - 2018)</h2>
+        <div class="latihan-box">
+            <span class="badge" style="background: #1e293b;">OSN-K 2012 - No. 14</span>
+            <p style="font-size: 1.1em;">
+                Diberikan segitiga \(ABC\) dengan keliling \(3\), dan jumlah kuadrat sisi-sisinya sama dengan \(5\). Jika jari-jari lingkaran luarnya sama dengan \(1\), maka tentukanlah jumlah ketiga garis tinggi dari segitiga \(ABC\) tersebut!
+            </p>
+            <p style="color: #666; font-style: italic; margin-top: 20px;">
+                💡 <strong>Petunjuk:</strong> Hubungkan keliling dengan jumlah kuadrat sisi untuk mencari \(ab+bc+ca\), lalu gunakan hubungan garis tinggi dengan luas \(L\).
+            </p>
+        </div>
+    </section>
+
+    <div class="footer">
+        &copy; 2026 Media Pembelajaran Matematika Interaktif
+    </div>
+</div>
+
+<script>
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
