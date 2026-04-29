@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bab 1 - Angle Chasing dan Segi Empat Tali Busur</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; }
+        .section { margin-bottom: 25px; padding: 15px; border-left: 5px solid #3498db; background: #ebf5fb; }
+        details {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            color: #d35400;
+        }
+        .exercise-box {
+            background: #fef9e7;
+            border: 2px dashed #f1c40f;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .btn-fullscreen {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            padding: 8px 15px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .footer { text-align: center; margin-top: 40px; font-size: 0.8em; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+<button class="btn-fullscreen" onclick="toggleFullScreen()">Full Screen</button>
+
+<div class="container" id="content">
+    <h1>Bab 1: Angle Chasing & Segi Empat Tali Busur</h1>
+    
+    
+
+    <div class="section">
+        <h2>1. Sudut Pusat dan Sudut Keliling</h2>
+        <p>Dalam sebuah lingkaran, jika terdapat sudut pusat dan sudut keliling yang menghadap <strong>busur yang sama</strong>, berlaku hubungan:</p>
+        <p style="text-align: center;">
+            \(\angle \text{Pusat} = 2 \times \angle \text{Keliling}\)
+        </p>
+        <p>Contoh: Jika \(\angle ABC\) adalah sudut keliling yang menghadap busur \(AC\), dan \(O\) adalah pusat lingkaran, maka \(\angle AOC = 2\angle ABC\).</p>
+    </div>
+
+    <div class="section">
+        <h2>2. Trigonometri Segitiga Siku-Siku</h2>
+        <p>Pada segitiga siku-siku dengan sudut \(\theta\):</p>
+        <ul>
+            <li>\(\sin \theta = \frac{\text{depan}}{\text{miring}}\)</li>
+            <li>\(\cos \theta = \frac{\text{samping}}{\text{miring}}\)</li>
+            <li>\(\tan \theta = \frac{\text{depan}}{\text{samping}}\)</li>
+        </ul>
+        <p><strong>Sudut Istimewa:</strong></p>
+        <table border="1" style="width:100%; border-collapse: collapse; text-align: center; background: white;">
+            <tr style="background: #3498db; color: white;">
+                <th>\(\theta\)</th>
+                <th>\(30^\circ\)</th>
+                <th>\(45^\circ\)</th>
+                <th>\(60^\circ\)</th>
+            </tr>
+            <tr>
+                <td>\(\sin\)</td>
+                <td>\(\frac{1}{2}\)</td>
+                <td>\(\frac{1}{2}\sqrt{2}\)</td>
+                <td>\(\frac{1}{2}\sqrt{3}\)</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>3. Sifat Segitiga Sama Kaki</h2>
+        <p>Segitiga sama kaki memiliki dua sisi yang sama panjang. Sifat utamanya:</p>
+        <ul>
+            <li>Sudut di hadapan sisi yang sama panjang adalah <strong>sama besar</strong>.</li>
+            <li>Garis tinggi yang ditarik dari puncak ke alas juga berfungsi sebagai garis bagi dan garis berat (membagi alas menjadi dua bagian sama panjang).</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <h2>Contoh Soal Ringan</h2>
+    <p>Diketahui segitiga \(ABC\) sama kaki dengan \(AB = AC\). Jika \(\angle BAC = 40^\circ\), berapakah besar \(\angle ABC\)?</p>
+    
+    <details>
+        <summary>Klik untuk Lihat Jawaban</summary>
+        <p>Karena \(AB = AC\), maka \(\angle ABC = \angle ACB\).</p>
+        <p>Total sudut segitiga = \(180^\circ\).</p>
+        <p>\(180^\circ = \angle BAC + 2\angle ABC\)</p>
+        <p>\(180^\circ = 40^\circ + 2\angle ABC\)</p>
+        <p>\(140^\circ = 2\angle ABC \implies \angle ABC = 70^\circ\).</p>
+    </details>
+
+    <div class="exercise-box">
+        <h2>Latihan Soal OSN (Tahun 2013 - No. 14)</h2>
+        <p>Diberikan segitiga lancip \(ABC\) dengan \(O\) sebagai pusat lingkaran luarnya. Misalkan \(M\) dan \(N\) berturut-turut pertengahan \(OA\) dan \(BC\). Jika \(\angle ABC = 4\angle OMN\) dan \(\angle ACB = 6\angle OMN\), maka besarnya \(\angle OMN = \dots\)</p>
+
+        
+
+        <details style="border-color: #27ae60;">
+            <summary style="color: #1e8449;">🔑 Kunci Jawaban</summary>
+            <p>Besar \(\angle OMN\) adalah:</p>
+            <p style="font-size: 1.5em; text-align: center; font-weight: bold; color: #27ae60;">
+                \(12^\circ\)
+            </p>
+        </details>
+    </div>
+
+    <div class="footer">
+        Dibuat untuk persiapan Kompetisi Sains Nasional Matematika
+    </div>
+</div>
+
+<script>
+    function toggleFullScreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
+        }
+    }
+</script>
+
+</body>
+</html>
