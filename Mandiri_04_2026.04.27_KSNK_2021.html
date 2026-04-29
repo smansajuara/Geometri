@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSN-K 2021 No.7 — Lingkaran Talibusur</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body {
+  font-family: var(--font-body,'Lora',serif);
+  font-size: var(--fs,16px);
+  line-height: 1.75;
+  transition: background 0.3s, color 0.3s;
+  min-height: 100vh;
+}
+#app { max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+body.tema-cerah {
+  --bg:#fdf8ef;--bg2:#f5ede0;--bg3:#ede2d4;
+  --txt:#2c1d0e;--txt2:#6b4c2a;
+  --accent:#b36a1e;--accent2:#e8a94b;--border:#d4b897;
+  --tag-bg:#fde9c5;--tag-txt:#7a4210;
+  --hint-bg:#fff7e6;--hint-border:#f0c97a;
+  --ans-bg:#edf7ed;--ans-border:#6aad6a;--ans-txt:#1e5c1e;
+  background:var(--bg);color:var(--txt);
+}
+body.tema-normal {
+  --bg:#f4f4f6;--bg2:#eaeaf0;--bg3:#dddde8;
+  --txt:#1a1a2e;--txt2:#4a4a6a;
+  --accent:#4a4aaa;--accent2:#7c7cdd;--border:#b0b0d0;
+  --tag-bg:#e6e6f8;--tag-txt:#2e2e7a;
+  --hint-bg:#eeeef8;--hint-border:#9090cc;
+  --ans-bg:#e8f5e9;--ans-border:#5aaa5a;--ans-txt:#1a541a;
+  background:var(--bg);color:var(--txt);
+}
+body.tema-redup {
+  --bg:#1a1c22;--bg2:#22252e;--bg3:#2c3040;
+  --txt:#d0d4e0;--txt2:#8890a8;
+  --accent:#6a9fd8;--accent2:#4d7fb5;--border:#3a3f55;
+  --tag-bg:#1e2a3a;--tag-txt:#88b8e8;
+  --hint-bg:#1e2430;--hint-border:#3a5878;
+  --ans-bg:#1a2a1a;--ans-border:#3a7a3a;--ans-txt:#7acd7a;
+  background:var(--bg);color:var(--txt);
+}
+
+body.font-lora  { --font-body:'Lora',serif; --fs:16px; }
+body.font-playfair { --font-body:'Playfair Display',serif; --fs:16px; }
+body.font-jetbrains { --font-body:'JetBrains Mono',monospace; --fs:14px; }
+
+.toolbar {
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  margin-bottom:1.5rem;padding:0.75rem 1rem;
+  background:var(--bg2);border-radius:10px;border:0.5px solid var(--border);
+}
+.toolbar label{font-size:12px;color:var(--txt2);margin-right:2px;}
+.btn-group{display:flex;gap:4px;}
+.btn {
+  font-size:12px;padding:4px 10px;border-radius:6px;
+  border:0.5px solid var(--border);background:var(--bg3);
+  color:var(--txt);cursor:pointer;transition:background 0.15s;font-family:inherit;
+}
+.btn:hover{background:var(--accent2);color:#fff;}
+.btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.sep{width:1px;height:24px;background:var(--border);margin:0 4px;}
+
+.soal-box {
+  background:var(--bg2);border-radius:10px;
+  border:1.5px solid var(--accent);
+  padding:1.1rem 1.2rem;margin-bottom:1.5rem;
+}
+.soal-num{font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--accent2);margin-bottom:0.4rem;}
+
+.section{margin-bottom:1.2rem;border-radius:10px;border:0.5px solid var(--border);overflow:hidden;}
+.section-head {
+  display:flex;align-items:center;gap:10px;
+  padding:0.65rem 1rem;background:var(--bg2);cursor:pointer;user-select:none;
+}
+.section-head .tag {
+  font-size:11px;padding:2px 8px;border-radius:4px;
+  background:var(--tag-bg);color:var(--tag-txt);font-weight:600;letter-spacing:0.04em;
+}
+.section-head .title{font-size:14px;font-weight:600;color:var(--accent);flex:1;}
+.section-head .arrow{font-size:13px;color:var(--txt2);transition:transform 0.2s;}
+.section-head.open .arrow{transform:rotate(90deg);}
+.section-body{padding:1rem 1.1rem 1.1rem;line-height:1.8;background:var(--bg);display:none;}
+.section-body.open{display:block;}
+
+.materi-item{margin-bottom:0.9rem;}
+.mi-title{font-weight:600;color:var(--accent);font-size:calc(var(--fs) - 1px);margin-bottom:0.25rem;}
+.materi-item p{font-size:calc(var(--fs) - 1px);color:var(--txt2);}
+.formula {
+  background:var(--bg2);border-radius:6px;padding:0.4rem 0.9rem;
+  display:inline-block;margin:0.25rem 0 0.1rem;
+  font-size:calc(var(--fs) - 1px);border:0.5px solid var(--border);
+}
+
+.hint-box {
+  background:var(--hint-bg);border-left:3px solid var(--hint-border);
+  border-radius:0 8px 8px 0;padding:0.9rem 1rem;margin-bottom:0.8rem;
+  font-size:calc(var(--fs) - 1px);
+}
+.hint-box ol{padding-left:1.2rem;}
+.hint-box li{margin-bottom:0.4rem;}
+
+.ans-box {
+  background:var(--ans-bg);border:1.5px solid var(--ans-border);
+  border-radius:8px;padding:1rem 1.1rem;margin-top:0.8rem;
+  font-size:calc(var(--fs) + 2px);color:var(--ans-txt);
+  font-weight:600;text-align:center;
+}
+
+.step-list{list-style:none;padding:0;}
+.step-list li{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:0.5rem 0;border-bottom:0.5px solid var(--border);
+  font-size:calc(var(--fs) - 1px);
+}
+.step-list li:last-child{border-bottom:none;}
+.step-num{
+  min-width:24px;height:24px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px;
+}
+.note{font-size:12px;color:var(--txt2);font-style:italic;margin-top:0.5rem;}
+</style>
+</head>
+<body class="tema-normal font-lora">
+<div id="app">
+
+<div class="toolbar">
+  <label>Tema</label>
+  <div class="btn-group">
+    <button class="btn" onclick="setTema('cerah')">Cerah</button>
+    <button class="btn active" onclick="setTema('normal')">Normal</button>
+    <button class="btn" onclick="setTema('redup')">Redup</button>
+  </div>
+  <div class="sep"></div>
+  <label>Font</label>
+  <div class="btn-group">
+    <button class="btn active" onclick="setFont('lora')">Serif</button>
+    <button class="btn" onclick="setFont('playfair')">Elegan</button>
+    <button class="btn" onclick="setFont('jetbrains')">Mono</button>
+  </div>
+</div>
+
+
+
+<!-- MATERI -->
+<div class="section">
+  <div class="section-head open" onclick="toggle(this)">
+    <span class="tag">MATERI</span>
+    <span class="title">Teorema Kuasa Titik - Aturan Cosinus - Aturan Sinus</span>
+    <span class="arrow">▶</span>
+  </div>
+  <div class="section-body open">
+
+    <div class="materi-item">
+      <div class="mi-title">1. Teorema Kuasa Titik (Power of a Point)</div>
+      <p>Jika dua garis sekan dari titik \(P\) di luar lingkaran memotong lingkaran di \(B, A\) dan \(C, D\) (urutan dari \(P\)):</p>
+      <div class="formula">\(PA \cdot PB = PC \cdot PD\)</div>
+    </div>
+
+    <div class="materi-item">
+      <div class="mi-title">2. Aturan Cosinus</div>
+      <p>Pada segitiga dengan sisi \(a, b\) dan sudut \(\theta\) di antaranya, sisi ketiga \(c\):</p>
+      <div class="formula">\(c^2 = a^2 + b^2 - 2ab\cos\theta\)</div>
+    </div>
+
+    <div class="materi-item">
+      <div class="mi-title">3. Sudut Keliling dan Sudut Pusat</div>
+      <p>Sudut keliling yang menghadap busur yang sama besarnya sama. Sudut keliling = setengah sudut pusat yang menghadap busur yang sama.</p>
+    </div>
+
+    <div class="materi-item">
+      <div class="mi-title">4. Aturan Sinus & Jari-jari Lingkaran Luar Segitiga</div>
+      <p>Pada segitiga \(ABC\) dengan sisi \(a, b, c\) berhadapan dengan sudut \(A, B, C\):</p>
+      <div class="formula">\(\dfrac{a}{\sin A} = \dfrac{b}{\sin B} = \dfrac{c}{\sin C} = 2R\)</div>
+      <p style="margin-top:0.4rem;">di mana \(2R\) adalah <strong>diameter</strong> lingkaran luar segitiga tersebut, sehingga \(R\) adalah <strong>jari-jari lingkaran luar segitiga</strong>.</p>
+    </div>
+	
+  </div>
+</div>
+<!-- SOAL -->
+<div class="soal-box">
+  <div class="soal-num">OSN-K 2021 — No. 7</div>
+  <p>Pada suatu lingkaran dengan jari-jari \(r\), terdapat segiempat talibusur \(ABCD\) dengan \(AB = 8\) dan \(CD = 5\). Sisi \(AB\) dan \(DC\) diperpanjang dan berpotongan di luar lingkaran di titik \(P\). Jika \(\angle APD = 60^\circ\) dan \(BP = 6\), maka nilai \(r^2\) adalah …</p>
+  
+    <div class="ans-box">
+	<p>Jawaban akhir </p>
+      \(r^2 = \boxed{43}\)
+    </div>
+</div>
+<!-- PETUNJUK -->
+<div class="section">
+  <div class="section-head" onclick="toggle(this)">
+    <span class="tag">PETUNJUK</span>
+    <span class="title">Langkah Penyelesaian (Singkat)</span>
+    <span class="arrow">▶</span>
+  </div>
+  <div class="section-body">
+    <div class="hint-box">
+      <ol>
+        <li>Gunakan kuasa titik: \(PA \cdot PB = PC \cdot PD\), dengan \(PD = PC + CD\). Selesaikan untuk mendapat \(PC\) dan \(PD\).</li>
+        <li>Pada segitiga \(PBC\) dan segitiga \(PBD\). Gunakan aturan cosinus untuk mencari \(BC\) dan \(BD\).</li>
+        <li>Cari sudut keliling \(\angle BDC\) atau \(\angle BCD\).</li>
+		<li>Kadang identitas \( \sin^2\alpha + \cos^2\alpha = 1 \) diperlukan</li>
+        <li>Gunakan \(r = \dfrac{BC}{2\sin(\angle BDC)}\) untuk mendapat \(r^2\).</li>
+      </ol>
+    </div>   
+  </div>
+</div>
+
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+function setTema(t){
+  document.body.className=document.body.className.replace(/tema-\w+/,'tema-'+t);
+  document.querySelectorAll('.btn').forEach(b=>{
+    const m={cerah:'Cerah',normal:'Normal',redup:'Redup'};
+    if(b.textContent===m[t])b.classList.add('active');
+    else if(['Cerah','Normal','Redup'].includes(b.textContent))b.classList.remove('active');
+  });
+}
+function setFont(f){
+  document.body.className=document.body.className.replace(/font-\w+/,'font-'+f);
+  document.querySelectorAll('.btn').forEach(b=>{
+    const m={lora:'Serif',playfair:'Elegan',jetbrains:'Mono'};
+    if(b.textContent===m[f])b.classList.add('active');
+    else if(['Serif','Elegan','Mono'].includes(b.textContent))b.classList.remove('active');
+  });
+}
+function toggle(h){
+  h.classList.toggle('open');
+  h.nextElementSibling.classList.toggle('open');
+}
+document.addEventListener("DOMContentLoaded",function(){
+  renderMathInElement(document.body,{
+    delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]
+  });
+});
+</script>
+</body>
+</html>
