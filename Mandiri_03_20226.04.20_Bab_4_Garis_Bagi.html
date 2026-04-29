@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garis Bagi Dalam & Luar Sudut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'\\(',right:'\\)',display:false},{left:'\\[',right:'\\]',display:true}]})"></script>
+
+<style>
+:root {
+  --bg: #0d0d14;
+  --surface: #13131f;
+  --card: #1a1a2e;
+  --border: #2a2a45;
+  --gold: #d4a843;
+  --gold2: #f0c96b;
+  --teal: #4ecdc4;
+  --rose: #e07080;
+  --text: #e8e4d8;
+  --muted: #8a8499;
+  --radius: 12px;
+}
+
+/* LIGHT MODE */
+body.light {
+  --bg: #f5f0e8;
+  --surface: #ede7d8;
+  --card: #fff8ee;
+  --border: #d6c9a8;
+  --gold: #b8861a;
+  --gold2: #c8960a;
+  --teal: #2a8a83;
+  --rose: #c04050;
+  --text: #1a1510;
+  --muted: #6a5f4a;
+}
+
+/* SEPIA MODE */
+body.sepia {
+  --bg: #2b1f0f;
+  --surface: #351e08;
+  --card: #3d2510;
+  --border: #5a3a18;
+  --gold: #e8b860;
+  --gold2: #f5d080;
+  --teal: #70c4b8;
+  --rose: #e89070;
+  --text: #f0dfc0;
+  --muted: #b09070;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.8;
+  transition: background 0.4s, color 0.4s;
+  min-height: 100vh;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.topbar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.mode-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.mode-btn {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-family: 'Source Serif 4', serif;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.03em;
+}
+.mode-btn.active, .mode-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(212,168,67,0.08);
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  padding: 52px 24px 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: 50%;
+  transform: translateX(-50%);
+  width: 500px; height: 300px;
+  background: radial-gradient(ellipse, rgba(212,168,67,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-tag {
+  display: inline-block;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 3px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.15;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.hero h1 span { color: var(--gold); }
+
+.hero-sub {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+/* ── LAYOUT ── */
+.container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 20px 60px;
+}
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 40px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.section-num {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  color: var(--text);
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+  transition: background 0.4s, border-color 0.4s;
+}
+
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--gold2);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── DEFINITION BOX ── */
+.def-box {
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  background: rgba(212,168,67,0.06);
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+  font-style: italic;
+}
+
+/* ── THEOREM BOX ── */
+.theorem-box {
+  border: 1.5px solid var(--teal);
+  border-radius: 8px;
+  padding: 14px 18px;
+  background: rgba(78,205,196,0.05);
+  margin: 14px 0;
+}
+
+.theorem-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  color: var(--teal);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+/* ── DETAILS / SUMMARY ── */
+details {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+summary {
+  padding: 12px 18px;
+  cursor: pointer;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.92rem;
+  color: var(--gold);
+  background: rgba(212,168,67,0.06);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+  transition: background 0.2s;
+}
+summary::-webkit-details-marker { display: none; }
+summary::before {
+  content: '▶';
+  font-size: 0.65rem;
+  transition: transform 0.3s;
+}
+details[open] summary::before { transform: rotate(90deg); }
+details[open] summary { background: rgba(212,168,67,0.1); }
+
+.proof-body {
+  padding: 18px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 0.94rem;
+}
+
+/* ── SVG FIGURE ── */
+.figure-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0 10px;
+  gap: 8px;
+}
+
+.figure-cap {
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+  text-align: center;
+}
+
+.fig-svg {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 100%;
+}
+
+/* ── STEP LIST ── */
+.steps { list-style: none; counter-reset: step; margin: 10px 0; }
+.steps li {
+  counter-increment: step;
+  padding: 6px 0 6px 36px;
+  position: relative;
+  border-bottom: 1px dashed var(--border);
+}
+.steps li:last-child { border-bottom: none; }
+.steps li::before {
+  content: counter(step);
+  position: absolute; left: 0; top: 8px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ── FORMULA BLOCK ── */
+.formula {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  text-align: center;
+  border: 1px solid var(--border);
+  font-size: 1.05rem;
+  overflow-x: auto;
+}
+
+/* ── EXAMPLE ── */
+.example-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.ex-badge {
+  background: var(--rose);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 0.05em;
+}
+
+.ex-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* ── ANSWER REVEAL ── */
+.answer-box {
+  border: 1.5px solid var(--rose);
+  border-radius: 8px;
+  padding: 16px 20px;
+  background: rgba(224,112,128,0.06);
+  margin-top: 14px;
+}
+
+.answer-label {
+  color: var(--rose);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+  font-family: 'Playfair Display', serif;
+}
+
+/* ── FINAL PROBLEM ── */
+.final-card {
+  background: linear-gradient(135deg, rgba(212,168,67,0.08), rgba(78,205,196,0.05));
+  border: 2px solid var(--gold);
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-top: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-card::after {
+  content: '★';
+  position: absolute;
+  right: 24px; top: 16px;
+  font-size: 2rem;
+  color: rgba(212,168,67,0.15);
+}
+
+.final-tag {
+  background: var(--gold);
+  color: var(--bg);
+  font-size: 0.72rem;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  display: inline-block;
+  margin-bottom: 14px;
+}
+
+.final-ans {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.ans-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  color: var(--gold);
+  font-weight: 900;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 32px 0;
+}
+
+p { margin-bottom: 10px; }
+p:last-child { margin-bottom: 0; }
+
+.highlight { color: var(--gold2); font-weight: 600; }
+.teal { color: var(--teal); }
+.rose { color: var(--rose); }
+
+/* ── FULLSCREEN ── */
+.fs-btn {
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-family: 'Source Serif 4', serif;
+  cursor: pointer;
+  transition: all 0.25s;
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.fs-btn:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+  background: rgba(78,205,196,0.08);
+}
+:fullscreen body,
+:-webkit-full-screen body,
+:-moz-full-screen body {
+  overflow-y: auto;
+}
+:fullscreen .topbar,
+:-webkit-full-screen .topbar,
+:-moz-full-screen .topbar {
+  position: sticky;
+  top: 0;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 520px) {
+  .card { padding: 16px 16px; }
+  .final-card { padding: 20px 18px; }
+  .topbar-title { font-size: 0.85rem; }
+  .fs-btn span { display: none; }
+}
+</style>
+</head>
+<body class="dark">
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span class="topbar-title">📐 Garis Bagi Sudut</span>
+  <div class="mode-btns">
+    <button class="mode-btn active" onclick="setMode('dark',this)">🌙 Gelap</button>
+    <button class="mode-btn" onclick="setMode('light',this)">☀️ Terang</button>
+    <button class="mode-btn" onclick="setMode('sepia',this)">📜 Sepia</button>
+    <button class="fs-btn" id="fsBtn" onclick="toggleFullscreen()" title="Fullscreen">
+      <svg id="fsIcon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+        <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+      </svg>
+      <span>Layar Penuh</span>
+    </button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Bab 4 : Segitiga - Garis bagi dan lingkaran singgung</div>
+  <h1>Garis Bagi <span>Dalam & Luar</span><br>Suatu Sudut</h1>
+  
+</div>
+
+<div class="container">
+
+<!-- ══════════════════════════════════ -->
+<!-- BAGIAN 1: GARIS BAGI DALAM & LUAR -->
+<!-- ══════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div class="section-title">Garis Bagi Dalam dan Garis Bagi Luar</div>
+  </div>
+
+  <!-- Definisi -->
+  <div class="card">
+    <div class="card-title">Definisi</div>
+
+    <div class="def-box">
+      <strong>Garis bagi dalam</strong> sudut \(\angle A\) pada segitiga \(ABC\) adalah garis dari \(A\) yang membagi \(\angle A\) menjadi dua sudut yang sama besar, dan memotong sisi \(BC\) di titik \(P\).
+    </div>
+
+    <div class="def-box">
+      <strong>Garis bagi luar</strong> sudut \(\angle A\) adalah garis dari \(A\) yang membagi sudut luar \(\angle A\) menjadi dua sama besar, dan memotong <em>perpanjangan</em> sisi \(BC\) di titik \(Q\).
+    </div>
+
+    <!-- SVG GAMBAR SEGITIGA -->
+    <div class="figure-wrap">
+      <svg class="fig-svg" viewBox="0 0 480 290" width="460" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" markerWidth="7" markerHeight="7" refX="3" refY="3.5" orient="auto">
+            <polygon points="0 0, 7 3.5, 0 7" fill="#8a8499"/>
+          </marker>
+          <style>
+            text { font-family: 'Source Serif 4', Georgia, serif; }
+          </style>
+        </defs>
+
+        <!-- Background -->
+        <rect width="480" height="290" fill="none"/>
+
+        <!-- Extended line BC (for Q) -->
+        <line x1="60" y1="210" x2="420" y2="210" stroke="#4a4a6a" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+        <!-- Triangle sides -->
+        <line x1="100" y1="210" x2="360" y2="210" stroke="#8a8499" stroke-width="2"/>
+        <line x1="100" y1="210" x2="200" y2="60" stroke="#8a8499" stroke-width="2"/>
+        <line x1="360" y1="210" x2="200" y2="60" stroke="#8a8499" stroke-width="2"/>
+
+        <!-- P on BC: BP=160, PC=80 → P at 100+160=260 from left (B=100, C=360, BC=260px scale 260/240→ scale=260/240) -->
+        <!-- Scale: B=100, C=360, BC=260px represents 240 units → 1unit=260/240 px -->
+        <!-- BP=160 → 160*(260/240)≈173px → P at 100+173=273 -->
+        <!-- Q is at BQ=480 units from B → 480*(260/240)≈520, too far. Let's place Q symbolically at 415 -->
+
+        <!-- Angle bisector (internal) A→P -->
+        <line x1="200" y1="60" x2="273" y2="210" stroke="#d4a843" stroke-width="2.2"/>
+        <!-- Angle bisector (external) A→Q -->
+        <line x1="200" y1="60" x2="415" y2="210" stroke="#4ecdc4" stroke-width="2.2" stroke-dasharray="7,4"/>
+
+        <!-- Right angle mark at A between the two bisectors... show angle arcs -->
+        <!-- Arc for internal angle bisector split -->
+        <path d="M 185 80 A 22 22 0 0 1 210 72" stroke="#d4a843" stroke-width="1.8" fill="none"/>
+        <path d="M 210 72 A 22 22 0 0 1 224 85" stroke="#d4a843" stroke-width="1.8" fill="none"/>
+        <!-- Arc for external bisector -->
+        <path d="M 175 90 A 34 34 0 0 0 162 108" stroke="#4ecdc4" stroke-width="1.8" fill="none"/>
+        <path d="M 162 108 A 34 34 0 0 0 168 128" stroke="#4ecdc4" stroke-width="1.8" fill="none"/>
+
+        <!-- Right angle box at A (between internal & external bisector) -->
+        <rect x="210" y="88" width="10" height="10" fill="none" stroke="#e07080" stroke-width="1.5" transform="rotate(-30 215 93)"/>
+
+        <!-- Points -->
+        <!-- B -->
+        <circle cx="100" cy="210" r="4" fill="#8a8499"/>
+        <text x="87" y="228" font-size="14" fill="#e8e4d8">B</text>
+        <!-- C -->
+        <circle cx="360" cy="210" r="4" fill="#8a8499"/>
+        <text x="365" y="228" font-size="14" fill="#e8e4d8">C</text>
+        <!-- A -->
+        <circle cx="200" cy="60" r="4" fill="#d4a843"/>
+        <text x="190" y="50" font-size="14" fill="#d4a843" font-weight="bold">A</text>
+        <!-- P -->
+        <circle cx="273" cy="210" r="5" fill="#d4a843"/>
+        <text x="268" y="228" font-size="13" fill="#d4a843">P</text>
+        <!-- Q -->
+        <circle cx="415" cy="210" r="5" fill="#4ecdc4"/>
+        <text x="418" y="228" font-size="13" fill="#4ecdc4">Q</text>
+
+        <!-- Labels -->
+        <text x="228" y="145" font-size="12" fill="#d4a843">garis bagi</text>
+        <text x="228" y="160" font-size="12" fill="#d4a843">dalam</text>
+        <text x="315" y="155" font-size="12" fill="#4ecdc4">garis bagi</text>
+        <text x="315" y="170" font-size="12" fill="#4ecdc4">luar</text>
+
+        <!-- 90° label -->
+        <text x="215" y="108" font-size="11" fill="#e07080">90°</text>
+
+        <!-- Arrow tip for extended line -->
+        <polygon points="420,210 413,206 413,214" fill="#8a8499"/>
+      </svg>
+      <div class="figure-cap">Gambar 1. Garis bagi dalam (emas, ke P) dan garis bagi luar (teal, ke Q) dari \(\angle CAB\)</div>
+    </div>
+  </div>
+
+  <!-- Teorema Garis Bagi Dalam -->
+  <div class="card">
+    <div class="card-title">Teorema 1 — Garis Bagi Dalam </div>
+
+    <div class="theorem-box">
+      <div class="theorem-label">Teorema</div>
+      <p>Jika \(AP\) adalah garis bagi dalam \(\angle A\) pada segitiga \(ABC\), maka titik \(P\) pada \(BC\) memenuhi:</p>
+    </div>
+
+    <div class="formula">
+      \[\dfrac{BP}{PC} = \dfrac{AB}{AC}\]
+    </div>
+
+    <details>
+      <summary>📖 Lihat Bukti Teorema Garis Bagi Dalam</summary>
+      <div class="proof-body">
+        <p>Tarik garis melalui \(C\) sejajar \(AP\), memotong perpanjangan \(BA\) di titik \(D\).</p>
+        <ol class="steps">
+          <li>Karena \(CD \parallel AP\), maka \(\angle BAP = \angle BDC\) (sudut sehadap) dan \(\angle APC = \angle DCP\) (sudut berseberangan dalam).</li>
+          <li>Karena \(AP\) adalah garis bagi dalam, maka \(\angle BAP = \angle CAP\). Dari sini \(\angle DCP = \angle CAP = \angle BAP = \angle BDC\), sehingga segitiga \(ACD\) adalah <em>sama kaki</em> dengan \(DA = AC\).</li>
+          <li>Karena \(CD \parallel AP\), dari teorema segmen sejajar pada segitiga \(BCD\):
+          \[\frac{BP}{PC} = \frac{BA}{DA}\]</li>
+          <li>Substitusi \(DA = AC\):
+          \[\boxed{\frac{BP}{PC} = \frac{AB}{AC}}\]</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+
+  <!-- Teorema Garis Bagi Luar -->
+  <div class="card">
+    <div class="card-title">Teorema 2 — Garis Bagi Luar (External Bisector Theorem)</div>
+
+    <div class="theorem-box">
+      <div class="theorem-label">Teorema</div>
+      <p>Jika \(AQ\) adalah garis bagi luar \(\angle A\) pada segitiga \(ABC\), maka titik \(Q\) pada perpanjangan \(BC\) memenuhi:</p>
+    </div>
+
+    <div class="formula">
+      \[\dfrac{BQ}{QC} = \dfrac{AB}{AC}\]
+    </div>
+    <p style="font-size:0.9rem; color:var(--muted);">dengan \(Q\) di <em>luar</em> ruas \(BC\) (pembagian luar/eksternal).</p>
+
+    <details>
+      <summary>📖 Lihat Bukti Teorema Garis Bagi Luar</summary>
+      <div class="proof-body">
+        <p>Tarik garis melalui \(B\) sejajar \(AQ\), memotong \(AC\) di titik \(E\).</p>
+        <ol class="steps">
+          <li>Karena \(BE \parallel AQ\), maka \(\angle QAC = \angle BEA\) (sudut sehadap) dan \(\angle AQB = \angle EBQ\) (sudut berseberangan dalam).</li>
+          <li>Karena \(AQ\) adalah garis bagi luar \(\angle A\), maka sudut luar \(\angle A\) terbagi dua sama besar. Dapat ditunjukkan bahwa \(\angle BAE = \angle AEB\), sehingga segitiga \(ABE\) sama kaki: \(AB = BE\).</li>
+          <li>Dari teorema segmen sejajar pada garis \(AQ\) yang dipotong \(BC\) dan \(BE \parallel AQ\):
+          \[\frac{BQ}{QC} = \frac{BE}{AC}\]</li>
+          <li>Substitusi \(BE = AB\):
+          \[\boxed{\frac{BQ}{QC} = \frac{AB}{AC}}\]</li>
+        </ol>
+      </div>
+    </details>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- BAGIAN 2: GARIS BAGI DALAM & LUAR TEGAK LURUS -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Garis Bagi Dalam dan Luar Suatu Sudut Saling Tegak Lurus</div>
+  </div>
+
+  <div class="card">
+    <div class="theorem-box">
+      <div class="theorem-label">Teorema Penting</div>
+      <p>Garis bagi dalam dan garis bagi luar suatu sudut yang sama <strong>selalu saling tegak lurus</strong>.</p>
+    </div>
+
+    <div class="formula">
+      \[\angle(\text{bagi dalam},\ \text{bagi luar}) = 90°\]
+    </div>
+
+    <details>
+      <summary>📖 Lihat Penjelasan & Bukti</summary>
+      <div class="proof-body">
+        <p>Misalkan besar \(\angle CAB = 2\alpha\). Maka:</p>
+
+        <p><span class="highlight">Garis bagi dalam</span> membagi \(\angle CAB\) menjadi dua, sehingga setiap bagian = \(\alpha\).</p>
+
+        <p><span class="teal">Garis bagi luar</span> membagi sudut luar \(\angle CAB\) menjadi dua. Sudut luar \(\angle CAB = 180° - 2\alpha\), sehingga setiap bagian = \(\dfrac{180° - 2\alpha}{2} = 90° - \alpha\).</p>
+
+        <p>Sekarang perhatikan sudut antara garis bagi dalam dan garis bagi luar, dihitung dari sisi \(AC\):</p>
+
+        <div class="formula">
+          \[\alpha + (90° - \alpha) = 90°\]
+        </div>
+
+        <p>Karena jumlahnya \(90°\), kedua garis bagi tersebut <strong class="highlight">saling tegak lurus</strong>. \(\square\)</p>
+
+        <p style="margin-top:12px; color:var(--muted); font-style:italic; font-size:0.9rem;">Konsekuensi penting: Pada lingkaran yang melalui \(A\), \(P\), dan \(Q\), karena \(\angle PAQ = 90°\), maka \(PQ\) adalah diameter lingkaran tersebut.</p>
+      </div>
+    </details>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════ -->
+<!-- BAGIAN 3: CONTOH SOAL -->
+<!-- ══════════════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div class="section-title">Contoh Soal</div>
+  </div>
+
+  <!-- Contoh 1 -->
+  <div class="card">
+    <div class="example-header">
+      <span class="ex-badge">Contoh 1</span>
+      <span class="ex-title">Garis Bagi Dalam — Mencari Panjang Segmen</span>
+    </div>
+
+    <p>Pada segitiga \(ABC\), diketahui \(AB = 10\), \(AC = 6\), dan \(BC = 8\). Garis bagi dalam \(\angle A\) memotong \(BC\) di titik \(D\). Tentukan \(BD\) dan \(DC\).</p>
+
+    <details>
+      <summary>✏️ Lihat Penyelesaian</summary>
+      <div class="proof-body">
+        <p>Gunakan Teorema Garis Bagi Dalam:</p>
+        <div class="formula">\[\frac{BD}{DC} = \frac{AB}{AC} = \frac{10}{6} = \frac{5}{3}\]</div>
+        <p>Misalkan \(BD = 5k\) dan \(DC = 3k\). Karena \(BD + DC = BC = 8\):</p>
+        <div class="formula">\[5k + 3k = 8 \implies k = 1\]</div>
+        <div class="answer-box">
+          <div class="answer-label">Jawaban</div>
+          \(BD = 5\) dan \(DC = 3\)
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- Contoh 2 -->
+  <div class="card">
+    <div class="example-header">
+      <span class="ex-badge">Contoh 2</span>
+      <span class="ex-title">Garis Bagi Luar — Mencari Titik Eksternal</span>
+    </div>
+
+    <p>Pada segitiga \(PQR\), diketahui \(PQ = 9\), \(PR = 6\), dan \(QR = 7\). Garis bagi luar \(\angle P\) memotong perpanjangan \(QR\) di titik \(S\). Tentukan \(QS\) dan \(RS\).</p>
+
+    <details>
+      <summary>✏️ Lihat Penyelesaian</summary>
+      <div class="proof-body">
+        <p>Gunakan Teorema Garis Bagi Luar:</p>
+        <div class="formula">\[\frac{QS}{RS} = \frac{PQ}{PR} = \frac{9}{6} = \frac{3}{2}\]</div>
+        <p>Karena \(S\) di <em>luar</em> \(QR\) (dan lebih dekat ke \(R\) agar rasio terpenuhi), maka \(S\) berada di perpanjangan \(QR\) melewati \(R\). Sehingga \(QS - RS = QR = 7\):</p>
+        <div class="formula">\[QS = 3k,\quad RS = 2k\]
+        \[3k - 2k = 7 \implies k = 7\]</div>
+        <div class="answer-box">
+          <div class="answer-label">Jawaban</div>
+          \(QS = 21\) dan \(RS = 14\)
+        </div>
+      </div>
+    </details>
+  </div>
+
+ 
+  
+</div>
+
+<hr class="divider">
+
+<!-- ════════════════════════════════ -->
+<!-- SOAL UTAMA: OLIMPIADE 2014 NO.15 -->
+<!-- ════════════════════════════════ -->
+
+<div class="final-card">
+  <div class="final-tag">Latihan Soal : OSNK tahun 2014 · No. 15</div>
+
+  <p style="font-size:1.05rem; line-height:1.9;">
+    Diberikan segitiga \(ABC\) dengan \(AB = 360\), \(BC = 240\), \(AC = 180\). Garis bagi dalam dan luar dari \(\angle CAB\) memotong \(BC\) dan perpanjangannya di \(P\) dan \(Q\). Jari-jari lingkaran yang melalui \(A\), \(P\), \(Q\) adalah…
+  </p>
+
+  <div class="final-ans">
+    <div class="answer-label">Jawaban</div>
+    <div>\(r = 160\)</div>
+    
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function setMode(mode, btn) {
+  document.body.className = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── FULLSCREEN ──
+const iconExpand   = `<polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>`;
+const iconCollapse = `<polyline points="4 14 10 14 10 20"/><polyline points="20 4 14 4 14 10"/><line x1="10" y1="20" x2="3" y2="13"/><line x1="21" y1="3" x2="14" y2="10"/>`;
+
+function toggleFullscreen() {
+  const el = document.documentElement;
+  const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement);
+  if (!isFs) {
+    const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen;
+    if (req) req.call(el);
+  } else {
+    const ex = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen;
+    if (ex) ex.call(document);
+  }
+}
+
+function updateFsButton() {
+  const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement);
+  const icon = document.getElementById('fsIcon');
+  const btn  = document.getElementById('fsBtn');
+  const span = btn ? btn.querySelector('span') : null;
+  if (icon) icon.innerHTML = isFs ? iconCollapse : iconExpand;
+  if (span) span.textContent = isFs ? 'Keluar' : 'Layar Penuh';
+  if (btn)  btn.title = isFs ? 'Keluar dari layar penuh (F)' : 'Layar penuh (F)';
+}
+
+document.addEventListener('fullscreenchange', updateFsButton);
+document.addEventListener('webkitfullscreenchange', updateFsButton);
+document.addEventListener('mozfullscreenchange', updateFsButton);
+
+document.addEventListener('keydown', e => {
+  if ((e.key === 'F' || e.key === 'f') && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) {
+    toggleFullscreen();
+  }
+});
+</script>
+
+</body>
+</html>
