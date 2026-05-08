@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSN Geometri: Lingkaran Luar & Aturan Cosinus</title>
+    
+    <!-- KaTeX CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, {delimiters: [{left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true}]});"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Fira+Code:wght@500&family=Lato:wght@400;700&family=Quicksand:wght@500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Variabel CSS untuk Tema */
+        :root {
+            --bg-color: #F5F5F5;
+            --text-color: #333333;
+            --card-bg: #FFFFFF;
+            --card-border: #DDDDDD;
+            --header-font: 'Lato', sans-serif;
+            --body-font: 'Lato', sans-serif;
+            --accent: #4CAF50;
+        }
+
+        .theme-cewek-banget {
+            --bg-color: #FFE4E1;
+            --text-color: #8B008B;
+            --card-bg: #FFF0F5;
+            --card-border: #FF69B4;
+            --header-font: 'Dancing Script', cursive;
+            --body-font: 'Quicksand', sans-serif;
+            --accent: #FF1493;
+        }
+
+        .theme-cewek {
+            --bg-color: #FFF0F5;
+            --text-color: #DB7093;
+            --card-bg: #FFFFFF;
+            --card-border: #FFB6C1;
+            --header-font: 'Quicksand', sans-serif;
+            --body-font: 'Quicksand', sans-serif;
+            --accent: #FF69B4;
+        }
+
+        .theme-netral {
+            --bg-color: #F5F5F5;
+            --text-color: #333333;
+            --card-bg: #FFFFFF;
+            --card-border: #CCCCCC;
+            --header-font: 'Lato', sans-serif;
+            --body-font: 'Lato', sans-serif;
+            --accent: #607D8B;
+        }
+
+        .theme-cowok {
+            --bg-color: #F0F8FF;
+            --text-color: #2F4F4F;
+            --card-bg: #FFFFFF;
+            --card-border: #87CEEB;
+            --header-font: 'Roboto', sans-serif;
+            --body-font: 'Roboto', sans-serif;
+            --accent: #1E90FF;
+        }
+
+        .theme-cowok-banget {
+            --bg-color: #1A1A1A;
+            --text-color: #00FF00;
+            --card-bg: #2B2B2B;
+            --card-border: #00FF00;
+            --header-font: 'Fira Code', monospace;
+            --body-font: 'Fira Code', monospace;
+            --accent: #00FF00;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--body-font);
+            margin: 0;
+            padding: 0;
+            transition: all 0.4s ease;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--header-font);
+            color: var(--accent);
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .theme-switcher {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .theme-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-cewek-banget { background: #FF69B4; color: white; }
+        .btn-cewek { background: #FFB6C1; color: white; }
+        .btn-netral { background: #607D8B; color: white; }
+        .btn-cowok { background: #87CEEB; color: white; }
+        .btn-cowok-banget { background: #333; color: #00FF00; border: 1px solid #00FF00; }
+
+        .svg-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        details {
+            margin-top: 15px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: var(--accent);
+        }
+
+        .step {
+            margin: 10px 0;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent);
+        }
+    </style>
+</head>
+<body class="theme-netral">
+
+    <div class="container">
+        <!-- Pemilih Tema -->
+        <div class="theme-switcher">
+            <button class="theme-btn btn-cewek-banget" onclick="setTheme('theme-cewek-banget')">🌸 Sangat Cewek</button>
+            <button class="theme-btn btn-cewek" onclick="setTheme('theme-cewek')">✨ Cewek</button>
+            <button class="theme-btn btn-netral" onclick="setTheme('theme-netral')">⚖️ Netral</button>
+            <button class="theme-btn btn-cowok" onclick="setTheme('theme-cowok')">🧊 Cowok</button>
+            <button class="theme-btn btn-cowok-banget" onclick="setTheme('theme-cowok-banget')">💻 Sangat Cowok</button>
+        </div>
+
+        <!-- MATERI 1: LINGKARAN LUAR -->
+        <div class="card">
+            <h2>📚 Materi 1: Lingkaran Luar Segitiga</h2>
+            <p><strong>Definisi:</strong> Lingkaran luar segitiga adalah lingkaran yang melalui ketiga titik sudut segitiga. Pusat lingkaran luar disebut <em>titik tinggi</em> atau <em>titik pusat lingkaran luar</em>, yang merupakan titik potong garis sumbu dari ketiga sisi segitiga.</p>
+            <p><strong>Rumus Jari-jari Lingkaran Luar (\(R\)):</strong></p>
+            \[ R = \frac{a}{2 \sin A} = \frac{b}{2 \sin B} = \frac{c}{2 \sin C} \]
+            <p>atau menggunakan luas segitiga (\(L\)):</p>
+            \[ R = \frac{a \cdot b \cdot c}{4L} \]
+            
+            <h3>📝 Contoh Soal Lingkaran Luar:</h3>
+            <p>Diketahui segitiga sama sisi \(ABC\) dengan panjang sisi \(a\). Tentukan jari-jari lingkaran luarnya!</p>
+            <details>
+                <summary>Lihat Penyelesaian Contoh</summary>
+                <div class="step">
+                    <p>Pada segitiga sama sisi, besar semua sudutnya adalah \(60^\circ\). Gunakan rumus dasar lingkaran luar:</p>
+                    \[ R = \frac{a}{2 \sin 60^\circ} \]
+                    <p>Karena \(\sin 60^\circ = \frac{1}{2}\sqrt{3}\), maka:</p>
+                    \[ R = \frac{a}{2 \cdot \frac{1}{2}\sqrt{3}} = \frac{a}{\sqrt{3}} \]
+                    <p>Jadi, jari-jari lingkaran luar segitiga sama sisi tersebut adalah \(\frac{a}{\sqrt{3}}\).</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- MATERI 2: ATURAN COSINUS -->
+        <div class="card">
+            <h2>📚 Materi 2: Aturan Cosinus</h2>
+            <p><strong>Definisi:</strong> Aturan Cosinus (Hukum Cosinus) digunakan untuk menghubungkan panjang sisi-sisi suatu segitiga dengan besar salah satu sudutnya. Aturan ini merupakan perumuman dari Teorema Pythagoras untuk segitiga sembarang (tidak harus siku-siku).</p>
+            
+            <p><strong>Rumus Utama (Mencari Panjang Sisi):</strong></p>
+            Jika diketahui sudut \(C\) yang menghadap sisi \(c\), maka:
+            \[ c^2 = a^2 + b^2 - 2ab \cos C \]
+            
+            <p><strong>Rumus Turunan (Mencari Besar Sudut):</strong></p>
+            Jika ingin mencari sudut \(C\), rumus di atas dapat diubah menjadi:
+            \[ \cos C = \frac{a^2 + b^2 - c^2}{2ab} \]
+
+            <h3>📝 Contoh Soal Aturan Cosinus:</h3>
+            <p>Diketahui segitiga \(ABC\) dengan panjang sisi \(a = 7\) cm, \(b = 5\) cm, dan sudut \(C = 60^\circ\). Hitunglah panjang sisi \(c\).</p>
+            <details>
+                <summary>Lihat Penyelesaian Contoh</summary>
+                <div class="step">
+                    <p>Diketahui: \(a = 7\), \(b = 5\), dan \(\cos C = \cos 60^\circ = \frac{1}{2}\).</p>
+                    <p>Gunakan rumus aturan cosinus:</p>
+                    \[ c^2 = a^2 + b^2 - 2ab \cos C \]
+                    \[ c^2 = 7^2 + 5^2 - 2(7)(5)\left(\frac{1}{2}\right) \]
+                    \[ c^2 = 49 + 25 - 35 \]
+                    \[ c^2 = 74 - 35 = 39 \]
+                    \[ c = \sqrt{39} \text{ cm} \]
+                </div>
+            </details>
+        </div>
+
+        <!-- SALINAN SOAL OSN -->
+        <div class="card">
+            <h2>🎯 Soal OSN: SNK 2025 No 7</h2>
+            
+            <div class="svg-container">
+                <!-- Gambar SVG Soal -->
+                <svg width="400" height="280" viewBox="0 0 400 280" style="max-width: 100%; height: auto; border: 1px solid var(--card-border); border-radius: 8px; background-color: var(--card-bg);">
+                    <!-- Garis AC -->
+                    <line x1="40" y1="200" x2="360" y2="200" stroke="gray" stroke-width="2" stroke-dasharray="5,5"/>
+                    
+                    <!-- Segitiga ABD -->
+                    <polygon points="80,200 200,200 140,90" fill="rgba(255,182,193,0.3)" stroke="black" stroke-width="2"/>
+                    <!-- Segitiga BCE -->
+                    <polygon points="200,200 320,200 260,90" fill="rgba(173,216,230,0.3)" stroke="black" stroke-width="2"/>
+                    
+                    <!-- Lingkaran Luar ABD (Pusat 140, 152.3) R=57.7 -->
+                    <circle cx="140" cy="155" r="58" fill="none" stroke="red" stroke-width="1.5" stroke-dasharray="4,4"/>
+                    <!-- Lingkaran Luar BCE (Pusat 260, 152.3) R=57.7 -->
+                    <circle cx="260" cy="155" r="58" fill="none" stroke="blue" stroke-width="1.5" stroke-dasharray="4,4"/>
+                    
+                    <!-- Titik P dan Q -->
+                    <circle cx="140" cy="155" r="3" fill="red"/>
+                    <circle cx="260" cy="155" r="3" fill="blue"/>
+                    
+                    <!-- Garis PQ -->
+                    <line x1="140" y1="155" x2="260" y2="155" stroke="green" stroke-width="1.5" stroke-dasharray="3,3"/>
+                    
+                    <!-- Label Titik -->
+                    <text x="70" y="220" font-size="16" font-weight="bold" fill="black">A</text>
+                    <text x="195" y="220" font-size="16" font-weight="bold" fill="black">B</text>
+                    <text x="315" y="220" font-size="16" font-weight="bold" fill="black">C</text>
+                    <text x="125" y="75" font-size="16" font-weight="bold" fill="black">D</text>
+                    <text x="252" y="75" font-size="16" font-weight="bold" fill="black">E</text>
+                    <text x="130" y="145" font-size="16" font-weight="bold" fill="red">P</text>
+                    <text x="265" y="145" font-size="16" font-weight="bold" fill="blue">Q</text>
+                </svg>
+            </div>
+
+            <p><strong>Soal:</strong> Diketahui dua segitiga kongruen \(ABD\) dan \(BCE\) (sisi-sisi segitiga sama panjang/segitiga sama sisi) dengan titik \(A, B, C\) terletak pada satu garis lurus. Titik \(P\) dan \(Q\) berturut-turut adalah pusat lingkaran luar segitiga \(ABD\) dan \(BCE\). Jika luas lingkaran luar segitiga \(BCP\) adalah \(126\), hitunglah luas lingkaran luar segitiga \(BPQ\).</p>
+
+            <details>
+                <summary>🔒 Kunci</summary>
+                                       
+
+                <div class="step">
+                    <
+                    <p><strong>Jadi, luas lingkaran luar segitiga \(BPQ\) adalah 18.</strong></p>
+                </div>
+            </details>
+        </div>
+    </div>
+
+    <script>
+        function setTheme(themeName) {
+            document.body.className = themeName;
+        }
+    </script>
+</body>
+</html>
