@@ -2,63 +2,321 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Geometri - Daftar Materi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geometri — Daftar Materi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple-light: #EEEDFE;
+      --purple-mid:   #534AB7;
+      --purple-dark:  #3C3489;
+      --purple-border:#AFA9EC;
+      --teal-light:   #E1F5EE;
+      --teal-mid:     #1D9E75;
+      --teal-dark:    #085041;
+      --teal-border:  #5DCAA5;
+      --bg:           #f6f5f2;
+      --card-bg:      #ffffff;
+      --text-main:    #1a1a1a;
+      --text-muted:   #6b6a65;
+      --text-label:   #999891;
+      --border:       rgba(0,0,0,0.09);
+      --radius:       14px;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      margin: 0;
-      padding: 20px;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 2.5rem 1rem 4rem;
     }
-    h1 {
+
+    header {
       text-align: center;
+      margin-bottom: 2.5rem;
     }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+
+    header .kelas {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple-mid);
+      background: var(--purple-light);
+      border: 0.5px solid var(--purple-border);
+      padding: 4px 14px;
+      border-radius: 99px;
+      margin-bottom: 14px;
     }
-    ul {
-      list-style: none;
-      padding: 0;
+
+    header h1 {
+      font-family: 'Lora', serif;
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.2;
+      margin-bottom: 6px;
     }
-    li {
-      margin: 10px 0;
+
+    header p {
+      font-size: 14px;
+      color: var(--text-muted);
     }
-    a {
-      display: block;
-      padding: 12px;
-      background: #4CAF50;
-      color: white;
-      text-decoration: none;
+
+    .list {
+      max-width: 660px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .card:hover {
+      box-shadow: 0 4px 18px rgba(83,74,183,0.08);
+      transform: translateY(-1px);
+    }
+
+    .badge {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--purple-light);
+      color: var(--purple-dark);
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      border: 0.5px solid var(--purple-border);
+    }
+
+    .info {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .info .label {
+      font-size: 11px;
+      color: var(--text-label);
+      margin-bottom: 3px;
+    }
+
+    .info .judul {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .btns {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 7px 13px;
       border-radius: 8px;
-      transition: 0.2s;
+      border: 0.5px solid;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.15s;
+      white-space: nowrap;
     }
-    a:hover {
-      background: #45a049;
+
+    .btn:hover { opacity: 0.82; transform: scale(0.98); }
+
+    .btn-materi {
+      background: var(--purple-light);
+      color: var(--purple-dark);
+      border-color: var(--purple-border);
+    }
+
+    .btn-alt {
+      background: var(--teal-light);
+      color: var(--teal-dark);
+      border-color: var(--teal-border);
+    }
+
+    .icon {
+      width: 14px; height: 14px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* divider */
+    .divider {
+      max-width: 660px;
+      margin: 0 auto 12px;
+      height: 0.5px;
+      background: var(--border);
+      display: none;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-size: 12px;
+      color: var(--text-label);
+    }
+
+    @media (max-width: 520px) {
+      .card { padding: 14px; }
+      .btns { width: 100%; }
+      .btn { flex: 1; justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>📘 Materi Geometri</h1>
-    <p>Pilih materi:</p>
+  <header>
+    <div class="kelas">Geometri · 2026</div>
+    <h1>📐 Materi Daring</h1>
+    <p>Pilih materi atau lihat alternatif penyelesaian tiap soal</p>
+  </header>
 
-    <ul>
-      <li><a href="Mandiri_01_2026.04.06_Garis Sumbu_Lingkaran_Luar.html">Daring 01 - Garis Sumbu_Lingkaran_Luar</a></li>
-      <li><a href="Mandiri_02_2026.04.13_Angle-chasing.html">Daring 02 -Angle-chasing</a></li>
-      <li><a href="Mandiri_03_20226.04.20_Bab_4_Garis_Bagi.html">Daring 03 : Garis Bagi dan Lingkaran Singgung</a></li>
-      <li><a href="Mandiri_04_2026.04.27_KSNK_2021.html">Daring 04 : Kuasa Titik - Aturan sinus cosinus</a></li>
-      <li><a href="Mandiri_05-2026.05.04_OSNK_2020_No_7.html">Daring 05 : Luas Segitiga - Aturan cosinus</a></li>
-      <li><a href="Mandiri_06-2026.05.11_Lingk_Luar_Segitiga_Aturan_Cos.html">Daring 06 : Lingkaran Luar Segitiga dan Aturan Cosinus</a></li>
-      <!-- Tambahkan di sini -->
-    </ul>
+  <div class="list">
+
+    <!-- 01 -->
+    <div class="card">
+      <div class="badge">01</div>
+      <div class="info">
+        <div class="label">Daring 01 &middot; 06 Apr 2026</div>
+        <div class="judul">Garis Sumbu &amp; Lingkaran Luar</div>
+      </div>
+      <div class="btns">
+        <a class="btn btn-materi" href="Mandiri_01_2026.04.06_Garis Sumbu_Lingkaran_Luar.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="1" width="10" height="13" rx="2"/><line x1="5" y1="5" x2="9" y2="5"/><line x1="5" y1="8" x2="9" y2="8"/></svg>
+          Materi
+        </a>
+        <a class="btn btn-alt" href="Alt_01_Garis_Sumbu_Lingkaran_Luar.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/></svg>
+          Alternatif Penyelesaian
+        </a>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="card">
+      <div class="badge">02</div>
+      <div class="info">
+        <div class="label">Daring 02 &middot; 13 Apr 2026</div>
+        <div class="judul">Angle-chasing</div>
+      </div>
+      <div class="btns">
+        <a class="btn btn-materi" href="Mandiri_02_2026.04.13_Angle-chasing.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="1" width="10" height="13" rx="2"/><line x1="5" y1="5" x2="9" y2="5"/><line x1="5" y1="8" x2="9" y2="8"/></svg>
+          Materi
+        </a>
+        <a class="btn btn-alt" href="Alt_02_Angle_Chasing.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/></svg>
+          Alternatif Penyelesaian
+        </a>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="card">
+      <div class="badge">03</div>
+      <div class="info">
+        <div class="label">Daring 03 &middot; 20 Apr 2026</div>
+        <div class="judul">Garis Bagi &amp; Lingkaran Singgung</div>
+      </div>
+      <div class="btns">
+        <a class="btn btn-materi" href="Mandiri_03_20226.04.20_Bab_4_Garis_Bagi.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="1" width="10" height="13" rx="2"/><line x1="5" y1="5" x2="9" y2="5"/><line x1="5" y1="8" x2="9" y2="8"/></svg>
+          Materi
+        </a>
+        <a class="btn btn-alt" href="Alt_03_Garis_Bagi_Lingkaran_Singgung.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/></svg>
+          Alternatif Penyelesaian
+        </a>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="card">
+      <div class="badge">04</div>
+      <div class="info">
+        <div class="label">Daring 04 &middot; 27 Apr 2026</div>
+        <div class="judul">Kuasa Titik — Aturan Sinus Cosinus</div>
+      </div>
+      <div class="btns">
+        <a class="btn btn-materi" href="Mandiri_04_2026.04.27_KSNK_2021.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="1" width="10" height="13" rx="2"/><line x1="5" y1="5" x2="9" y2="5"/><line x1="5" y1="8" x2="9" y2="8"/></svg>
+          Materi
+        </a>
+        <a class="btn btn-alt" href="Alt_04_Kuasa_Titik_Aturan_Sinus_Cosinus.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/></svg>
+          Alternatif Penyelesaian
+        </a>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="card">
+      <div class="badge">05</div>
+      <div class="info">
+        <div class="label">Daring 05 &middot; 04 Mei 2026</div>
+        <div class="judul">Luas Segitiga — Aturan Cosinus</div>
+      </div>
+      <div class="btns">
+        <a class="btn btn-materi" href="Mandiri_05-2026.05.04_OSNK_2020_No_7.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="1" width="10" height="13" rx="2"/><line x1="5" y1="5" x2="9" y2="5"/><line x1="5" y1="8" x2="9" y2="8"/></svg>
+          Materi
+        </a>
+        <a class="btn btn-alt" href="Alt_05_Luas_Segitiga_Aturan_Cosinus.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/></svg>
+          Alternatif Penyelesaian
+        </a>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="card">
+      <div class="badge">06</div>
+      <div class="info">
+        <div class="label">Daring 06 &middot; 11 Mei 2026</div>
+        <div class="judul">Lingkaran Luar Segitiga &amp; Aturan Cosinus</div>
+      </div>
+      <div class="btns">
+        <a class="btn btn-materi" href="Mandiri_06-2026.05.11_Lingk_Luar_Segitiga_Aturan_Cos.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="1" width="10" height="13" rx="2"/><line x1="5" y1="5" x2="9" y2="5"/><line x1="5" y1="8" x2="9" y2="8"/></svg>
+          Materi
+        </a>
+        <a class="btn btn-alt" href="Alt_06_Lingkaran_Luar_Segitiga_Aturan_Cosinus.html">
+          <svg class="icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="6"/><line x1="8" y1="5" x2="8" y2="8"/><circle cx="8" cy="11" r="0.5" fill="currentColor"/></svg>
+          Alternatif Penyelesaian
+        </a>
+      </div>
+    </div>
 
   </div>
+
+  <footer>
+    &copy; 2026 &mdash; Materi Geometri
+  </footer>
 
 </body>
 </html>
